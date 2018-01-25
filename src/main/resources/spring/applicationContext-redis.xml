@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="#{redis['redis.pool.maxActive']}"/>
+        <property name="maxIdle" value="#{redis['redis.pool.maxIdle']}"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="true"/>
+    </bean>
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg name="host" value="#{redis['redis.host']}"/>
+        <constructor-arg name="port" value="#{redis['redis.port']}"/>
+        <constructor-arg name="timeout" value="#{redis['redis.timeout']}"/>
+        <!--<constructor-arg name="password" value="#{redis['redis.password']}"/>-->
+        <!--<constructor-arg name="database" value="#{redis['redis.database']}"/>-->
+    </bean>
+
+    <beans>
+        <util:properties id="redis" location="classpath:config/redis.properties"/>
+    </beans>
+
+</beans>
