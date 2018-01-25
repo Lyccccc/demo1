@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.io.IOException;
 import java.util.Date;
@@ -29,6 +31,9 @@ public class DemoController {
 
     @Autowired
     private BlogArticleService blogArticleService;
+
+    @Autowired
+    private JedisPool jedisPool;
 
     @RequestMapping("/sayHello/{name}")
     public String sayHello(@PathVariable("name") String name, Model model){
@@ -48,5 +53,13 @@ public class DemoController {
         blogArticle.setCreateTime(date);
         blogArticleService.add(blogArticle);
         return "1";
+    }
+
+    @RequestMapping("/redis/{name}")
+    public void redisTest(@PathVariable("name") String name){
+        logger.info(name);
+        Jedis jedis = jedisPool.getResource();
+        logger.info(jedis.get(name));
+        jedis.close();
     }
 }

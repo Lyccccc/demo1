@@ -11,11 +11,13 @@ public class LogTest {
     public static void main(String[] args) throws InterruptedException {
         Logger logger = LogManager.getLogger(LogTest.class);
 //        Logger logger = LogManager.getLogger("mylog");
-        logger.trace("trace level");
-        logger.debug("debug level");
-        logger.info("info level");
-        logger.warn("warn level");
+//        logger.trace("trace level");
+//        logger.debug("debug level");
+//        logger.info("info level");
+//        logger.warn("warn level");
+//        logger.error("error level");
+//        logger.fatal("fatal level");
         logger.error("error level");
-        logger.fatal("fatal level");
+        logger.info("info level");
     }
 }
