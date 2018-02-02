@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.coderchen.demo1.dao.AccountMapper">
+  <resultMap id="BaseResultMap" type="net.coderchen.demo1.model.Account">
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account_money" jdbcType="DECIMAL" property="accountMoney" />
+  </resultMap>
+
+  <update id="setMoney" parameterType="net.coderchen.demo1.model.Account">
+    update account a set a.account_money = #{accountMoney, jdbcType = DECIMAL} where a.account_name = #{accountName, jdbcType = INTEGER};
+  </update>
+
+  <select id="selectAccount" parameterType="String" resultMap="BaseResultMap">
+    select * from account a where a.account_name = #{_parameter};
+  </select>
+
+  <insert id="insert" parameterType="net.coderchen.demo1.model.Account">
+    insert into account (account_id, account_name, account_money
+      )
+    values (#{accountId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, #{accountMoney,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.coderchen.demo1.model.Account">
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="accountMoney != null">
+        account_money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountMoney != null">
+        #{accountMoney,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

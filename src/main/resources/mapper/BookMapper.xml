@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.coderchen.demo1.dao.BookMapper">
+  <resultMap id="BaseResultMap" type="net.coderchen.demo1.model.Book">
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="book_money" jdbcType="DECIMAL" property="bookMoney" />
+    <result column="left_count" jdbcType="INTEGER" property="leftCount" />
+  </resultMap>
+  <insert id="insert" parameterType="net.coderchen.demo1.model.Book">
+    insert into book (book_id, book_name, book_money, 
+      left_count)
+    values (#{bookId,jdbcType=INTEGER}, #{bookName,jdbcType=VARCHAR}, #{bookMoney,jdbcType=DECIMAL}, 
+      #{leftCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="net.coderchen.demo1.model.Book">
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="bookName != null">
+        book_name,
+      </if>
+      <if test="bookMoney != null">
+        book_money,
+      </if>
+      <if test="leftCount != null">
+        left_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null">
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookMoney != null">
+        #{bookMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="leftCount != null">
+        #{leftCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="deductLeftCount" parameterType="Integer">
+    update book t set t.left_count = t.left_count - 1 where t.book_id = #{bookId};
+  </update>
+
+  <select id="selectBook" parameterType="Integer" resultMap="BaseResultMap">
+    select * from book b where b.book_id = #{bookId};
+  </select>
+</mapper>
