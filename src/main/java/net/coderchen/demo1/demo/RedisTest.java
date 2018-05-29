@@ -1,5 +1,6 @@
 package net.coderchen.demo1.demo;
 
+        import org.springframework.data.redis.core.RedisTemplate;
         import redis.clients.jedis.Jedis;
 
 /**
